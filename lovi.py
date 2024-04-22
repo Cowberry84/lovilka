@@ -5,16 +5,16 @@ from time import sleep
 #фоновая музыка
 mixer.init()
 mixer.music.load('space.ogg')
-
+urr = 1
 #шрифты и надписи
 font.init()
 font1 = font.SysFont("Arial", 80)
 win = font1.render('YOU WIN!', 0, (255, 255, 255))
 lose = font1.render('YOU LOSE!', 0, (180, 0, 0))
 font2 = font.SysFont("Arial", 36)
-text_ur1 = font2.render('Уровень 1', 0, (255, 255, 255))
-text_ur2 = font2.render('Уровень 2', 0, (255, 255, 255))
-text_ur3 = font2.render('Уровень 3', 0, (255, 255, 255))
+
+# text_ur2 = font2.render('Уровень 2', 0, (255, 255, 255))
+# text_ur3 = font2.render('Уровень 3', 0, (255, 255, 255))
 #класс-родитель для других спрайтов
 class GameSprite(sprite.Sprite):
  #конструктор класса
@@ -124,6 +124,7 @@ while run:
 
     if not finish:
         window.blit(background,(0,0))
+
         korzina.update()
         korzina.reset()
 
@@ -133,7 +134,7 @@ while run:
         if ur1 == True:        
             dobychas1.update()
             dobychas1.draw(window)
-            # window.blit(text_ur1, (300, 20))
+
             if sprite.spritecollide(korzina, dobychas1, True):
                 score += 1
                 dobycha1 = Dobyacha("tenis_ball.png", randint(80, win_width - 80), 0, 30, 30, randint(3, 8))
@@ -156,11 +157,12 @@ while run:
                     lost = 0
                     # time.delay(3000)
                     ur2 = True
+                    urr = 2
 
         if ur2 == True:
             dobychas2.update()
             dobychas2.draw(window)
-            # window.blit(text_ur2, (300, 20))
+            window.blit(text_ur, (300, 20))
             if sprite.spritecollide(korzina, dobychas2, True):
                 score += 1
                 dobycha2 = Dobyacha("ufo.png", randint(80, win_width - 80), 0, 30, 30, randint(3, 8))
@@ -169,6 +171,7 @@ while run:
             if score >= 30:
                 ur2 = False
                 ur3 = True
+                urr = 3
                 lost = 0
                 for mn in dobychas2:
                     mn.kill()
@@ -198,6 +201,9 @@ while run:
     
         text_lose = font2.render("Пропущено: " + str(lost), 0, (255, 255, 255))
         window.blit(text_lose, (10, 50))    
+
+        text_ur = font2.render(f'Уровень {urr}', 0, (255, 255, 255))
+        window.blit(text_ur, (300, 20))
            
         display.update()
 
